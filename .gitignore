@@ -3,3 +3,4 @@ dist
 seed-out
 *.local
 .DS_Store
+*.tsbuildinfo

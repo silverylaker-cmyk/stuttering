@@ -15,9 +15,11 @@ npm run dev        # 개발 서버
 npm test           # Vitest (판정 로직 경계값, 시드 시나리오, 백업 왕복)
 npm run build      # 타입체크 + 프로덕션 빌드 (dist/)
 npm run seed       # 12주 시드 시나리오 4종 → seed-out/*.json
+npm run audio:checklist          # 모델 음성 120개 체크리스트 → docs/model-audio-checklist.csv
+npm run audio:prepare -- raw     # 녹음 원본 → public/audio/model/*.m4a 변환·속도 검사 (ffmpeg 필요)
 ```
 
-배포: `main` 에 push 하면 GitHub Actions 가 GitHub Pages 로 배포합니다 (`https://silverylaker-cmyk.github.io/stuttering/`).
+배포: `main`(또는 현재 작업 브랜치)에 push 하면 GitHub Actions 가 GitHub Pages 로 배포합니다 (`https://silverylaker-cmyk.github.io/stuttering/`).
 저장소 Settings › Pages › Source 를 **GitHub Actions** 로 한 번 설정해야 합니다. 다른 경로에 배포할 땐 `BASE_PATH=/ npm run build`.
 
 ## 구조
@@ -33,8 +35,8 @@ npm run seed       # 12주 시드 시나리오 4종 → seed-out/*.json
 | `src/pages/` | 화면 |
 | `src/seed/scenarios.ts` | 시드 시나리오 4종 (호전형·정체형·재발형·보정 실패 후 통과형) |
 | `content/` | 문장 90 · 주간 평가 주제 26 · 비도움 사고 12 · 노출 템플릿 10 · DAF 지문 2 · 설문 · 안내 문구, `REVIEW.md` 검수 기록 |
-| `public/audio/model/{spm}/{sentenceId}.m4a` | 모델 음성 (녹음 후 추가) |
-| `public/video/{key}.mp4` | 기법 설명 영상 (v1.1, 추가 시 자동 표시) |
+| `public/audio/model/{spm}/{sentenceId}.m4a` | 모델 음성 — 녹음·변환 방법은 [docs/MODEL_AUDIO_GUIDE.md](docs/MODEL_AUDIO_GUIDE.md) |
+| `public/video/{key}.mp4` | 기법 설명 영상 — 사양·원고는 [docs/VIDEO_GUIDE.md](docs/VIDEO_GUIDE.md) |
 
 ## 마일스톤 현황
 

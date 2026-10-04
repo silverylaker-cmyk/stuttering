@@ -11,7 +11,8 @@
 | 4주 설문 (8문항) | `content/survey.json` | | | 브리프 4.6 확정본 | |
 | DAF 테스트 지문 (2) | `content/dafPassages.json` | | | 미검수 | |
 | 화면 큐·안내 카드 | `content/guides.json` | | | 미검수 | |
-| 모델 음성 (120) | `public/audio/model/` | | | 녹음 전 | |
+| 모델 음성 (120 + Pull-out 시범) | `public/audio/model/` | | | 녹음 전 | |
+| 기법 설명 영상 (8) | `public/video/` | | | 제작 전 | |
 | 단계 기준 수치 | `src/config/program.ts` | | | 미검수 | |
 
 ## 메모

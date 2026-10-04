@@ -1,6 +1,6 @@
 # 모델 음성
 
-경로: `public/audio/model/{spm}/{sentenceId}.m4a`
+경로: `public/audio/model/{spm}/{sentenceId}.m4a` — 자세한 방법은 `docs/MODEL_AUDIO_GUIDE.md`
 
 - SPM 단계: `70`, `120`, `150`, `180`
 - `sentenceId`: `content/sentences.json` 의 `id` (예: `L1-01`)

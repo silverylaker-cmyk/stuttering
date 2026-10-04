@@ -11,7 +11,9 @@
     "test:watch": "vitest",
     "typecheck": "tsc -b --noEmit",
     "seed": "tsx scripts/seed.ts",
-    "content:syllables": "tsx scripts/build-content.ts"
+    "content:syllables": "tsx scripts/build-content.ts",
+    "audio:checklist": "tsx scripts/model-audio-checklist.ts",
+    "audio:prepare": "tsx scripts/prepare-audio.ts"
   },
   "dependencies": {
     "dexie": "^4.4.6",
