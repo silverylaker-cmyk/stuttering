@@ -4,6 +4,7 @@ import { setSetting } from './db/db';
 import { useAllData, useSettings, useStatus, useToday } from './hooks';
 import { isStandalone, platform, requestPersist } from './lib/install';
 import { Link, navigate, useRoute } from './router';
+import { Icon } from './components/design';
 import { Onboarding } from './pages/Onboarding';
 import { Home } from './pages/Home';
 import { TrainMenu } from './pages/TrainMenu';
@@ -25,11 +26,11 @@ import { DafToolPage } from './pages/DafToolPage';
 import { ModificationPage } from './pages/ModificationPage';
 
 const NAV = [
-  { to: '/', label: '오늘', ico: '◎' },
-  { to: '/train', label: '훈련', ico: '♪' },
-  { to: '/record', label: '녹음', ico: '●' },
-  { to: '/mind', label: '마음', ico: '♡' },
-  { to: '/history', label: '기록', ico: '▤' },
+  { to: '/', label: '오늘', ico: 'home' },
+  { to: '/train', label: '훈련', ico: 'wave' },
+  { to: '/record', label: '녹음', ico: 'mic' },
+  { to: '/mind', label: '마음', ico: 'heart' },
+  { to: '/history', label: '기록', ico: 'chart' },
 ];
 
 export function App() {
@@ -81,7 +82,7 @@ function Shell() {
               return (
                 <Link key={n.to} to={n.to} className={active ? 'active' : ''} aria-current={active ? 'page' : undefined}>
                   <span className="ico" aria-hidden>
-                    {n.ico}
+                    <Icon name={n.ico} />
                   </span>
                   {n.label}
                 </Link>

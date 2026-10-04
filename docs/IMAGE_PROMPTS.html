@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>일러스트 프롬프트</title>
+<style>
+:root{--bg:#f6f5f2;--surface:#fff;--text:#1c1d1f;--muted:#5f6368;--line:#e4e1db;--brand:#173b3f;--primary:#d4561e;--soft:#f0eee9;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111416;--surface:#1a1e21;--text:#eceeef;--muted:#9ca3a8;--line:#2f353a;--brand:#0e2427;--primary:#ff8a50;--soft:#23282c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111416;--surface:#1a1e21;--text:#eceeef;--muted:#9ca3a8;--line:#2f353a;--brand:#0e2427;--primary:#ff8a50;--soft:#23282c;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Pretendard,-apple-system,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;line-height:1.55;word-break:keep-all}
+.hero{background:var(--brand);color:#fff;padding:28px 16px 24px}
+.hero h1{margin:0 0 6px;font-size:1.5rem}
+.hero p{margin:0;opacity:.85}
+main{max-width:860px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:16px}
+section.box,.item{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+h2{margin:0;font-size:1.1rem}
+h3{margin:0 0 8px;font-size:1rem}
+ol,ul{margin:0;padding-left:1.2rem}
+li{margin:4px 0}
+.item header{display:flex;align-items:center;gap:12px}
+.grow{flex:1;min-width:0}
+.num{width:32px;height:32px;border-radius:10px;background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:800;flex:none}
+.meta,.file,.ko{margin:4px 0;color:var(--muted);font-size:.88rem}
+.ko{color:var(--text)}
+.swatch{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);flex:none}
+.prompt{position:relative;margin-top:10px;background:var(--soft);border-radius:12px;padding:10px 12px}
+.prompt .label{font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:4px}
+pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;padding-right:64px}
+.copy{position:absolute;top:8px;right:8px;min-height:36px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-weight:700;cursor:pointer}
+.copy.done{background:var(--primary);color:#fff;border-color:var(--primary)}
+.palette{display:flex;flex-wrap:wrap;gap:8px}
+.palette span{display:inline-flex;align-items:center;gap:6px;font-size:.82rem}
+.palette i{width:22px;height:22px;border-radius:6px;border:1px solid var(--line)}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.85em;background:var(--soft);padding:1px 6px;border-radius:6px}
+.toc{display:flex;flex-wrap:wrap;gap:6px}
+.toc a{font-size:.82rem;padding:4px 10px;border-radius:999px;background:var(--soft);color:var(--text);text-decoration:none}
+.all{margin-top:8px}
+@media (max-width:480px){main{padding:12px}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>말하기 훈련 · 일러스트 프롬프트</h1>
+  <p>앱 일러스트 12장 + 앱 아이콘 1장. 모든 이미지가 같은 스타일이 되도록 공통 스타일을 각 프롬프트에 포함했습니다.</p>
+</div>
+<main>
+  <section class="box">
+    <h3>사용 방법</h3>
+    <ol>
+      <li><b>1번 이미지를 먼저</b> 만들고 마음에 들 때까지 다듬습니다. 이후 이미지는 1번을 <b>스타일 참조 이미지</b>로 함께 넣으면 일관성이 좋아집니다 (ChatGPT 이미지: "이 그림과 같은 스타일로", Midjourney: <code>--sref</code>).</li>
+      <li>"프롬프트 (영문)"을 복사해 붙여 넣고, 네거티브 칸이 있는 도구면 네거티브도 넣습니다.</li>
+      <li>그림 안에 <b>글자가 생기면 다시 생성</b>하세요 (앱 화면에 따로 제목이 있습니다).</li>
+      <li>파일 이름을 표의 이름(예: <code>ex-prolonged.png</code>)으로 저장해 한 폴더에 모은 뒤, 압축해서 Claude 세션에 올려 주시면 변환·배치·배포까지 진행합니다. 직접 하실 때는 <code>npm run images:prepare -- 폴더</code>.</li>
+      <li>이미지가 없는 자리는 지금처럼 이모지로 표시되므로 몇 장씩 나눠 올려도 됩니다.</li>
+    </ol>
+  </section>
+
+  <section class="box">
+    <h3>공통 스타일</h3>
+    <p class="ko">플랫 벡터 일러스트, 둥글고 단순한 형태, 따뜻하고 격려하는 분위기, 짙은 청록·따뜻한 주황·복숭아·민트 계열 한정 색, 친근한 표정의 한국인 청년 캐릭터, 글자·로고·UI 없음, 가운데 배치와 넉넉한 여백</p>
+    <div class="palette">
+      <span><i style="background:#173B3F"></i>#173B3F 짙은 청록</span><span><i style="background:#E8743B"></i>#E8743B 따뜻한 주황</span><span><i style="background:#FFE3D3"></i>#FFE3D3 복숭아</span><span><i style="background:#D8EFE9"></i>#D8EFE9 민트</span><span><i style="background:#E6E1FB"></i>#E6E1FB 라벤더</span><span><i style="background:#FFF0C9"></i>#FFF0C9 버터</span><span><i style="background:#F6F5F2"></i>#F6F5F2 바탕</span>
+    </div>
+    <div class="prompt all">
+      <div class="label">공통 스타일 (영문, 참고용 · 각 프롬프트에 이미 포함됨)</div>
+      <pre>Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements</pre>
+      <button class="copy" data-copy="Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements">복사</button>
+    </div>
+  </section>
+
+  <nav class="toc" aria-label="목록"><a href="#onboard-welcome">1. 시작 화면</a><a href="#onboard-privacy">2. 개인정보 안내</a><a href="#onboard-start">3. 프로필·시작</a><a href="#ex-prolonged">4. 연장발화 훈련기</a><a href="#ex-metronome">5. 메트로놈 연습</a><a href="#ex-modification">6. 말더듬 수정법</a><a href="#ex-daf">7. DAF 상황 보조</a><a href="#ex-daf-test">8. DAF 반응 테스트</a><a href="#mind-ladder">9. 노출 사다리</a><a href="#mind-thought">10. 사고 기록</a><a href="#record-probe">11. 주간 평가 녹음</a><a href="#empty-state">12. 빈 화면</a><a href="#app-icon">13. 앱 아이콘 (선택)</a></nav>
+
+  
+<article class="item" id="onboard-welcome">
+  <header>
+    <span class="num">1</span>
+    <div class="grow">
+      <h2>시작 화면</h2>
+      <p class="meta">온보딩 1단계 (앱 첫 실행) · 1:1 · 1024×1024 → 앱용 640×640</p>
+    </div>
+    <span class="swatch" style="background:#FFE3D3" title="배경 #FFE3D3"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/onboard-welcome.webp</code></p>
+  <p class="ko">소파에 편하게 앉아 휴대폰을 든 청년, 입에서 부드러운 물결 모양 말풍선</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A young Korean adult sitting comfortably on a sofa holding a smartphone, a soft speech bubble with a gentle wavy sound line floating from their mouth, a small potted plant beside them, calm morning light. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #FFE3D3. Aspect ratio 1:1.</pre>
+    <button class="copy" data-copy="A young Korean adult sitting comfortably on a sofa holding a smartphone, a soft speech bubble with a gentle wavy sound line floating from their mouth, a small potted plant beside them, calm morning light. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #FFE3D3. Aspect ratio 1:1.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="onboard-privacy">
+  <header>
+    <span class="num">2</span>
+    <div class="grow">
+      <h2>개인정보 안내</h2>
+      <p class="meta">온보딩 2단계 · 1:1 · 1024×1024 → 앱용 640×640</p>
+    </div>
+    <span class="swatch" style="background:#D8EFE9" title="배경 #D8EFE9"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/onboard-privacy.webp</code></p>
+  <p class="ko">작은 집 모양의 휴대폰 안에 녹음·그래프 카드가 안전하게 들어 있고 자물쇠가 걸린 모습</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A smartphone shown as a cozy little house with a closed door and a small padlock, tiny audio waveform and chart cards resting safely inside the house, no arrows going outward. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #D8EFE9. Aspect ratio 1:1.</pre>
+    <button class="copy" data-copy="A smartphone shown as a cozy little house with a closed door and a small padlock, tiny audio waveform and chart cards resting safely inside the house, no arrows going outward. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #D8EFE9. Aspect ratio 1:1.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="onboard-start">
+  <header>
+    <span class="num">3</span>
+    <div class="grow">
+      <h2>프로필·시작</h2>
+      <p class="meta">온보딩 3단계 · 1:1 · 1024×1024 → 앱용 640×640</p>
+    </div>
+    <span class="swatch" style="background:#FFF0C9" title="배경 #FFF0C9"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/onboard-start.webp</code></p>
+  <p class="ko">언덕 위 해를 향해 이어진 5개의 둥근 징검돌, 첫 돌 위에서 앞을 바라보는 청년</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A gently rising path of five rounded stepping stones leading up a small hill toward a soft sun, a young Korean adult standing on the first stone looking ahead with a backpack, hopeful mood. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #FFF0C9. Aspect ratio 1:1.</pre>
+    <button class="copy" data-copy="A gently rising path of five rounded stepping stones leading up a small hill toward a soft sun, a young Korean adult standing on the first stone looking ahead with a backpack, hopeful mood. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #FFF0C9. Aspect ratio 1:1.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="ex-prolonged">
+  <header>
+    <span class="num">4</span>
+    <div class="grow">
+      <h2>연장발화 훈련기</h2>
+      <p class="meta">훈련 탭 카드 (가장 큰 카드) · 4:3 · 1024×768 → 앱용 800×600</p>
+    </div>
+    <span class="swatch" style="background:#FFE3D3" title="배경 #FFE3D3"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/ex-prolonged.webp</code></p>
+  <p class="ko">입에서 길고 매끄럽게 이어지는 리본(늘인 음절), 구석에 작은 메트로놈</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A person speaking slowly with a long, smooth, continuous ribbon flowing from their mouth, the ribbon stretched into gentle waves like a stretched syllable, a small metronome in the corner. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #FFE3D3. Aspect ratio 4:3.</pre>
+    <button class="copy" data-copy="A person speaking slowly with a long, smooth, continuous ribbon flowing from their mouth, the ribbon stretched into gentle waves like a stretched syllable, a small metronome in the corner. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #FFE3D3. Aspect ratio 4:3.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="ex-metronome">
+  <header>
+    <span class="num">5</span>
+    <div class="grow">
+      <h2>메트로놈 연습</h2>
+      <p class="meta">훈련 탭 카드 · 4:3 · 1024×768 → 앱용 800×600</p>
+    </div>
+    <span class="swatch" style="background:#D8EFE9" title="배경 #D8EFE9"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/ex-metronome.webp</code></p>
+  <p class="ko">흔들리는 나무 메트로놈 옆에 일정한 간격의 동그란 박자 점</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A friendly wooden metronome with a swinging arm, evenly spaced round dots floating beside it like beats, a small speech bubble matching the rhythm. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #D8EFE9. Aspect ratio 4:3.</pre>
+    <button class="copy" data-copy="A friendly wooden metronome with a swinging arm, evenly spaced round dots floating beside it like beats, a small speech bubble matching the rhythm. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #D8EFE9. Aspect ratio 4:3.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="ex-modification">
+  <header>
+    <span class="num">6</span>
+    <div class="grow">
+      <h2>말더듬 수정법</h2>
+      <p class="meta">훈련 탭 카드 (Phase 3+) · 4:3 · 1024×768 → 앱용 800×600</p>
+    </div>
+    <span class="swatch" style="background:#E6E1FB" title="배경 #E6E1FB"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/ex-modification.webp</code></p>
+  <p class="ko">왼쪽의 엉킨 실이 오른쪽으로 갈수록 부드럽게 풀려 매끈한 리본이 됨, 끝을 잡은 차분한 사람</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A tangled knot of string on the left that gradually loosens into a smooth straight ribbon on the right, a calm person holding the smooth end, symbolizing easing out of a block. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #E6E1FB. Aspect ratio 4:3.</pre>
+    <button class="copy" data-copy="A tangled knot of string on the left that gradually loosens into a smooth straight ribbon on the right, a calm person holding the smooth end, symbolizing easing out of a block. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #E6E1FB. Aspect ratio 4:3.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="ex-daf">
+  <header>
+    <span class="num">7</span>
+    <div class="grow">
+      <h2>DAF 상황 보조</h2>
+      <p class="meta">훈련 탭 카드 (반응자만) · 4:3 · 1024×768 → 앱용 800×600</p>
+    </div>
+    <span class="swatch" style="background:#DBE9FB" title="배경 #DBE9FB"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/ex-daf.webp</code></p>
+  <p class="ko">유선 이어폰을 끼고 전화를 걸려는 사람, 말풍선이 살짝 뒤따라오는 메아리처럼 겹침</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A person wearing wired earphones about to make a phone call, a soft echo of their own speech bubble appearing slightly behind the first one, calm confident posture. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #DBE9FB. Aspect ratio 4:3.</pre>
+    <button class="copy" data-copy="A person wearing wired earphones about to make a phone call, a soft echo of their own speech bubble appearing slightly behind the first one, calm confident posture. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #DBE9FB. Aspect ratio 4:3.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="ex-daf-test">
+  <header>
+    <span class="num">8</span>
+    <div class="grow">
+      <h2>DAF 반응 테스트</h2>
+      <p class="meta">훈련 탭 카드 (원장 활성화 시) · 4:3 · 1024×768 → 앱용 800×600</p>
+    </div>
+    <span class="swatch" style="background:#FFF0C9" title="배경 #FFF0C9"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/ex-daf-test.webp</code></p>
+  <p class="ko">책상 위 펼친 책과 유선 이어폰, 위에 떠 있는 두 막대 비교 카드</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>An open book on a desk with wired earphones resting beside it and a simple two-bar comparison card floating above, neutral and curious mood. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #FFF0C9. Aspect ratio 4:3.</pre>
+    <button class="copy" data-copy="An open book on a desk with wired earphones resting beside it and a simple two-bar comparison card floating above, neutral and curious mood. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #FFF0C9. Aspect ratio 4:3.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="mind-ladder">
+  <header>
+    <span class="num">9</span>
+    <div class="grow">
+      <h2>노출 사다리</h2>
+      <p class="meta">마음 탭 카드 · 4:3 · 1024×768 → 앱용 800×600</p>
+    </div>
+    <span class="swatch" style="background:#FFE3D3" title="배경 #FFE3D3"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/mind-ladder.webp</code></p>
+  <p class="ko">둥근 사다리 칸마다 책·전화·커피잔·마이크 아이콘, 두 번째 칸에 오르는 사람</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A short friendly ladder with rounded rungs, small icons on each rung (a book, a phone, a coffee cup, a microphone) from bottom to top, a person stepping onto the second rung with a small smile. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #FFE3D3. Aspect ratio 4:3.</pre>
+    <button class="copy" data-copy="A short friendly ladder with rounded rungs, small icons on each rung (a book, a phone, a coffee cup, a microphone) from bottom to top, a person stepping onto the second rung with a small smile. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #FFE3D3. Aspect ratio 4:3.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="mind-thought">
+  <header>
+    <span class="num">10</span>
+    <div class="grow">
+      <h2>사고 기록</h2>
+      <p class="meta">마음 탭 카드 · 4:3 · 1024×768 → 앱용 800×600</p>
+    </div>
+    <span class="swatch" style="background:#E6E1FB" title="배경 #E6E1FB"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/mind-thought.webp</code></p>
+  <p class="ko">노트에 쓰는 사람, 머리 위 어두운 생각 구름에서 밝은 구름으로 이어지는 화살표</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A person writing in a notebook, above their head a dark tangled thought cloud on one side and a light, airy balanced cloud on the other side connected by a gentle arrow. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #E6E1FB. Aspect ratio 4:3.</pre>
+    <button class="copy" data-copy="A person writing in a notebook, above their head a dark tangled thought cloud on one side and a light, airy balanced cloud on the other side connected by a gentle arrow. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #E6E1FB. Aspect ratio 4:3.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="record-probe">
+  <header>
+    <span class="num">11</span>
+    <div class="grow">
+      <h2>주간 평가 녹음</h2>
+      <p class="meta">녹음 탭 상단 카드 · 4:3 · 1024×768 → 앱용 800×600</p>
+    </div>
+    <span class="swatch" style="background:#D8EFE9" title="배경 #D8EFE9"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/record-probe.webp</code></p>
+  <p class="ko">탁자 위에서 녹음 중인 휴대폰, 옆에 한 칸이 강조된 주간 달력 카드</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A smartphone standing on a table recording, a soft round audio waveform on its screen area (no text), a weekly calendar card beside it with one day softly highlighted. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #D8EFE9. Aspect ratio 4:3.</pre>
+    <button class="copy" data-copy="A smartphone standing on a table recording, a soft round audio waveform on its screen area (no text), a weekly calendar card beside it with one day softly highlighted. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #D8EFE9. Aspect ratio 4:3.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="empty-state">
+  <header>
+    <span class="num">12</span>
+    <div class="grow">
+      <h2>빈 화면</h2>
+      <p class="meta">기록이 없을 때 (녹음·사고 기록 목록) · 1:1 · 1024×1024 → 앱용 640×640</p>
+    </div>
+    <span class="swatch" style="background:#F0EEE9" title="배경 #F0EEE9"></span>
+  </header>
+  <p class="file">저장 파일: <code>public/illustrations/empty-state.webp</code></p>
+  <p class="ko">새싹이 돋아난 빈 상자, 조용하고 초대하는 느낌</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>A small empty open box with a tiny sprout growing out of it, a few floating soft dots, quiet and inviting. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #F0EEE9. Aspect ratio 1:1.</pre>
+    <button class="copy" data-copy="A small empty open box with a tiny sprout growing out of it, a few floating soft dots, quiet and inviting. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements, solid flat background color #F0EEE9. Aspect ratio 1:1.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+
+<article class="item" id="app-icon">
+  <header>
+    <span class="num">13</span>
+    <div class="grow">
+      <h2>앱 아이콘 (선택)</h2>
+      <p class="meta">홈 화면 아이콘 · public/icons/ · 1:1 · 1024×1024 → 앱용 640×640</p>
+    </div>
+    
+  </header>
+  <p class="file">저장 파일: <code>public/icons/ (PNG 192·512)</code></p>
+  <p class="ko">짙은 청록 배경에 흰색 물결 선이 말풍선 모양을 이루는 단순한 아이콘, 주황 점 포인트</p>
+  <div class="prompt">
+    <div class="label">프롬프트 (영문)</div>
+    <pre>App icon, a single smooth flowing wave line forming a gentle speech bubble shape, white on deep teal (#173B3F) rounded square background, a small warm orange (#E8743B) dot accent, flat, centered, bold simple geometry readable at small sizes, no text. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements. Aspect ratio 1:1.</pre>
+    <button class="copy" data-copy="App icon, a single smooth flowing wave line forming a gentle speech bubble shape, white on deep teal (#173B3F) rounded square background, a small warm orange (#E8743B) dot accent, flat, centered, bold simple geometry readable at small sizes, no text. Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements. Aspect ratio 1:1.">복사</button>
+  </div>
+  <div class="prompt neg">
+    <div class="label">네거티브 프롬프트</div>
+    <pre>text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces</pre>
+    <button class="copy" data-copy="text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces">복사</button>
+  </div>
+</article>
+</main>
+<script>
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('.copy');
+  if (!b) return;
+  const text = b.dataset.copy;
+  try { await navigator.clipboard.writeText(text); }
+  catch { const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch {} t.remove(); }
+  b.textContent = '복사됨'; b.classList.add('done');
+  setTimeout(() => { b.textContent = '복사'; b.classList.remove('done'); }, 1500);
+});
+</script>
+</body>
+</html>

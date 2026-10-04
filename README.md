@@ -17,6 +17,8 @@ npm run build      # 타입체크 + 프로덕션 빌드 (dist/)
 npm run seed       # 12주 시드 시나리오 4종 → seed-out/*.json
 npm run audio:checklist          # 모델 음성 120개 체크리스트 → docs/model-audio-checklist.csv
 npm run audio:prepare -- raw     # 녹음 원본 → public/audio/model/*.m4a 변환·속도 검사 (ffmpeg 필요)
+npm run images:prompts           # content/illustrations.json → docs/IMAGE_PROMPTS.html
+npm run images:prepare -- 폴더    # 생성한 일러스트 → public/illustrations/*.webp
 ```
 
 배포: `main`(또는 현재 작업 브랜치)에 push 하면 GitHub Actions 가 GitHub Pages 로 배포합니다 (`https://silverylaker-cmyk.github.io/stuttering/`).
@@ -36,6 +38,8 @@ npm run audio:prepare -- raw     # 녹음 원본 → public/audio/model/*.m4a �
 | `src/seed/scenarios.ts` | 시드 시나리오 4종 (호전형·정체형·재발형·보정 실패 후 통과형) |
 | `content/` | 문장 90 · 주간 평가 주제 26 · 비도움 사고 12 · 노출 템플릿 10 · DAF 지문 2 · 설문 · 안내 문구, `REVIEW.md` 검수 기록 |
 | `public/audio/model/{spm}/{sentenceId}.m4a` | 모델 음성 — 녹음·변환 방법은 [docs/MODEL_AUDIO_GUIDE.md](docs/MODEL_AUDIO_GUIDE.md) |
+| `public/illustrations/{name}.webp` | 일러스트 — 목록·생성 프롬프트는 [docs/IMAGE_PROMPTS.html](docs/IMAGE_PROMPTS.html) (`content/illustrations.json` 에서 생성), 없으면 이모지 표시 |
+| `public/fonts/` | Pretendard (OFL) 서브셋 3굵기, 오프라인 포함 |
 | `public/video/{key}.mp4` | 기법 설명 영상 — 사양·원고는 [docs/VIDEO_GUIDE.md](docs/VIDEO_GUIDE.md) |
 
 ## 마일스톤 현황

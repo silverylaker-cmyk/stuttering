@@ -1,0 +1,138 @@
+{
+  "style": {
+    "palette": "deep teal #173B3F, warm orange #E8743B, soft peach #FFE3D3, mint #D8EFE9, lavender #E6E1FB, butter yellow #FFF0C9, off-white #F6F5F2",
+    "en": "Flat vector illustration, soft rounded shapes, minimal detail, gentle grain texture, warm and encouraging mood, limited palette of deep teal (#173B3F), warm orange (#E8743B), soft peach (#FFE3D3), mint (#D8EFE9) and off-white (#F6F5F2), simple Korean young adult character(s) with friendly expressions, no outlines or very thin outlines, plenty of empty space around the subject, centered composition, no text, no letters, no logos, no UI elements",
+    "negative": "text, letters, words, watermark, logo, brand, UI screenshot, photorealistic, 3D render, harsh shadows, clutter, gradient mesh, distorted hands, extra fingers, medical equipment, hospital, sad or distressed faces",
+    "ko": "플랫 벡터 일러스트, 둥글고 단순한 형태, 따뜻하고 격려하는 분위기, 짙은 청록·따뜻한 주황·복숭아·민트 계열 한정 색, 친근한 표정의 한국인 청년 캐릭터, 글자·로고·UI 없음, 가운데 배치와 넉넉한 여백"
+  },
+  "items": [
+    {
+      "name": "onboard-welcome",
+      "title": "시작 화면",
+      "where": "온보딩 1단계 (앱 첫 실행)",
+      "ratio": "1:1",
+      "bg": "#FFE3D3",
+      "fallback": "👋",
+      "subject": "A young Korean adult sitting comfortably on a sofa holding a smartphone, a soft speech bubble with a gentle wavy sound line floating from their mouth, a small potted plant beside them, calm morning light",
+      "ko": "소파에 편하게 앉아 휴대폰을 든 청년, 입에서 부드러운 물결 모양 말풍선"
+    },
+    {
+      "name": "onboard-privacy",
+      "title": "개인정보 안내",
+      "where": "온보딩 2단계",
+      "ratio": "1:1",
+      "bg": "#D8EFE9",
+      "fallback": "🔒",
+      "subject": "A smartphone shown as a cozy little house with a closed door and a small padlock, tiny audio waveform and chart cards resting safely inside the house, no arrows going outward",
+      "ko": "작은 집 모양의 휴대폰 안에 녹음·그래프 카드가 안전하게 들어 있고 자물쇠가 걸린 모습"
+    },
+    {
+      "name": "onboard-start",
+      "title": "프로필·시작",
+      "where": "온보딩 3단계",
+      "ratio": "1:1",
+      "bg": "#FFF0C9",
+      "fallback": "🌱",
+      "subject": "A gently rising path of five rounded stepping stones leading up a small hill toward a soft sun, a young Korean adult standing on the first stone looking ahead with a backpack, hopeful mood",
+      "ko": "언덕 위 해를 향해 이어진 5개의 둥근 징검돌, 첫 돌 위에서 앞을 바라보는 청년"
+    },
+    {
+      "name": "ex-prolonged",
+      "title": "연장발화 훈련기",
+      "where": "훈련 탭 카드 (가장 큰 카드)",
+      "ratio": "4:3",
+      "bg": "#FFE3D3",
+      "fallback": "〰️",
+      "subject": "A person speaking slowly with a long, smooth, continuous ribbon flowing from their mouth, the ribbon stretched into gentle waves like a stretched syllable, a small metronome in the corner",
+      "ko": "입에서 길고 매끄럽게 이어지는 리본(늘인 음절), 구석에 작은 메트로놈"
+    },
+    {
+      "name": "ex-metronome",
+      "title": "메트로놈 연습",
+      "where": "훈련 탭 카드",
+      "ratio": "4:3",
+      "bg": "#D8EFE9",
+      "fallback": "🎵",
+      "subject": "A friendly wooden metronome with a swinging arm, evenly spaced round dots floating beside it like beats, a small speech bubble matching the rhythm",
+      "ko": "흔들리는 나무 메트로놈 옆에 일정한 간격의 동그란 박자 점"
+    },
+    {
+      "name": "ex-modification",
+      "title": "말더듬 수정법",
+      "where": "훈련 탭 카드 (Phase 3+)",
+      "ratio": "4:3",
+      "bg": "#E6E1FB",
+      "fallback": "↺",
+      "subject": "A tangled knot of string on the left that gradually loosens into a smooth straight ribbon on the right, a calm person holding the smooth end, symbolizing easing out of a block",
+      "ko": "왼쪽의 엉킨 실이 오른쪽으로 갈수록 부드럽게 풀려 매끈한 리본이 됨, 끝을 잡은 차분한 사람"
+    },
+    {
+      "name": "ex-daf",
+      "title": "DAF 상황 보조",
+      "where": "훈련 탭 카드 (반응자만)",
+      "ratio": "4:3",
+      "bg": "#DBE9FB",
+      "fallback": "🎧",
+      "subject": "A person wearing wired earphones about to make a phone call, a soft echo of their own speech bubble appearing slightly behind the first one, calm confident posture",
+      "ko": "유선 이어폰을 끼고 전화를 걸려는 사람, 말풍선이 살짝 뒤따라오는 메아리처럼 겹침"
+    },
+    {
+      "name": "ex-daf-test",
+      "title": "DAF 반응 테스트",
+      "where": "훈련 탭 카드 (원장 활성화 시)",
+      "ratio": "4:3",
+      "bg": "#FFF0C9",
+      "fallback": "🧪",
+      "subject": "An open book on a desk with wired earphones resting beside it and a simple two-bar comparison card floating above, neutral and curious mood",
+      "ko": "책상 위 펼친 책과 유선 이어폰, 위에 떠 있는 두 막대 비교 카드"
+    },
+    {
+      "name": "mind-ladder",
+      "title": "노출 사다리",
+      "where": "마음 탭 카드",
+      "ratio": "4:3",
+      "bg": "#FFE3D3",
+      "fallback": "🪜",
+      "subject": "A short friendly ladder with rounded rungs, small icons on each rung (a book, a phone, a coffee cup, a microphone) from bottom to top, a person stepping onto the second rung with a small smile",
+      "ko": "둥근 사다리 칸마다 책·전화·커피잔·마이크 아이콘, 두 번째 칸에 오르는 사람"
+    },
+    {
+      "name": "mind-thought",
+      "title": "사고 기록",
+      "where": "마음 탭 카드",
+      "ratio": "4:3",
+      "bg": "#E6E1FB",
+      "fallback": "💭",
+      "subject": "A person writing in a notebook, above their head a dark tangled thought cloud on one side and a light, airy balanced cloud on the other side connected by a gentle arrow",
+      "ko": "노트에 쓰는 사람, 머리 위 어두운 생각 구름에서 밝은 구름으로 이어지는 화살표"
+    },
+    {
+      "name": "record-probe",
+      "title": "주간 평가 녹음",
+      "where": "녹음 탭 상단 카드",
+      "ratio": "4:3",
+      "bg": "#D8EFE9",
+      "fallback": "🎙️",
+      "subject": "A smartphone standing on a table recording, a soft round audio waveform on its screen area (no text), a weekly calendar card beside it with one day softly highlighted",
+      "ko": "탁자 위에서 녹음 중인 휴대폰, 옆에 한 칸이 강조된 주간 달력 카드"
+    },
+    {
+      "name": "empty-state",
+      "title": "빈 화면",
+      "where": "기록이 없을 때 (녹음·사고 기록 목록)",
+      "ratio": "1:1",
+      "bg": "#F0EEE9",
+      "fallback": "🌤️",
+      "subject": "A small empty open box with a tiny sprout growing out of it, a few floating soft dots, quiet and inviting",
+      "ko": "새싹이 돋아난 빈 상자, 조용하고 초대하는 느낌"
+    }
+  ],
+  "appIcon": {
+    "name": "app-icon",
+    "title": "앱 아이콘 (선택)",
+    "where": "홈 화면 아이콘 · public/icons/",
+    "ratio": "1:1",
+    "subject": "App icon, a single smooth flowing wave line forming a gentle speech bubble shape, white on deep teal (#173B3F) rounded square background, a small warm orange (#E8743B) dot accent, flat, centered, bold simple geometry readable at small sizes, no text",
+    "ko": "짙은 청록 배경에 흰색 물결 선이 말풍선 모양을 이루는 단순한 아이콘, 주황 점 포인트"
+  }
+}

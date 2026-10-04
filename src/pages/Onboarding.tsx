@@ -6,6 +6,7 @@ import { today } from '../lib/date';
 import { isStandalone, platform, requestPersist } from '../lib/install';
 import { hashPin, isValidPin, newSalt } from '../lib/pin';
 import { InstallGuide } from '../components/InstallGuide';
+import { Illust } from '../components/design';
 import { navigate } from '../router';
 
 export function Onboarding() {
@@ -57,6 +58,9 @@ export function Onboarding() {
 
         {step === 0 && (
           <section className="card">
+            <div className="illust-hero" style={{ maxWidth: 200 }}>
+              <Illust name="onboard-welcome" />
+            </div>
             <h1>말하기 훈련</h1>
             <p>외래에서 처방받은 단계에 맞춰 집에서 유창성 훈련을 하고 기록하는 보조 도구입니다.</p>
             <h2>먼저 홈 화면에 설치해 주세요</h2>
@@ -75,6 +79,9 @@ export function Onboarding() {
 
         {step === 1 && (
           <section className="card">
+            <div className="illust-hero c2" style={{ maxWidth: 200, background: 'var(--tile-2)', color: 'var(--tile-2-ink)' }}>
+              <Illust name="onboard-privacy" />
+            </div>
             <h1>개인정보 안내</h1>
             <ul style={{ margin: 0, paddingLeft: '1.2rem' }} className="stack">
               <li>모든 기록과 녹음은 <b>이 기기 안에만</b> 저장됩니다. 서버로 전송하거나 분석 도구를 쓰지 않습니다.</li>
@@ -99,6 +106,9 @@ export function Onboarding() {
 
         {step === 2 && (
           <section className="card">
+            <div className="illust-hero" style={{ maxWidth: 200, background: 'var(--tile-4)', color: 'var(--tile-4-ink)' }}>
+              <Illust name="onboard-start" />
+            </div>
             <h1>프로필과 원장 PIN</h1>
             <label className="field">
               별명

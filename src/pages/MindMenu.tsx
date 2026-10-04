@@ -1,7 +1,7 @@
 import { useApp } from '../app-context';
+import { ExCard, Illust } from '../components/design';
 import { Card, Stat, TopBar } from '../components/ui';
 import { exposureStats, thoughtStats } from '../lib/logic';
-import { Link } from '../router';
 
 export function MindMenu() {
   const { data } = useApp();
@@ -11,25 +11,11 @@ export function MindMenu() {
     <>
       <TopBar title="마음 훈련" />
       <div className="page">
-        <Link to="/mind/ladder" className="menu-tile">
-          <span className="ico">▦</span>
-          <span className="grow">
-            <b>노출 사다리</b>
-            <br />
-            <span className="small muted">쉬운 상황부터 한 칸씩 도전하기</span>
-          </span>
-          <span className="chev">›</span>
-        </Link>
-        <Link to="/mind/thought" className="menu-tile">
-          <span className="ico">✎</span>
-          <span className="grow">
-            <b>사고 기록</b>
-            <br />
-            <span className="small muted">불안한 생각을 살펴보고 균형 잡기</span>
-          </span>
-          <span className="chev">›</span>
-        </Link>
-        <Card title="나의 기록" tone="soft">
+        <div className="ex-grid">
+          <ExCard to="/mind/ladder" art={<Illust name="mind-ladder" />} color={1} title="노출 사다리" sub={`쉬운 상황부터 한 칸씩 · ${ex.completed}회 도전`} />
+          <ExCard to="/mind/thought" art={<Illust name="mind-thought" />} color={3} title="사고 기록" sub={`불안한 생각 살펴보기 · ${th.count}건`} />
+        </div>
+        <Card title={<h3>나의 기록</h3>}>
           <div className="stats">
             <Stat label="노출 완료" value={ex.completed} />
             <Stat label="최고 난이도" value={ex.maxDifficulty || '–'} />

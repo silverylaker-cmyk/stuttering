@@ -13,7 +13,9 @@
     "seed": "tsx scripts/seed.ts",
     "content:syllables": "tsx scripts/build-content.ts",
     "audio:checklist": "tsx scripts/model-audio-checklist.ts",
-    "audio:prepare": "tsx scripts/prepare-audio.ts"
+    "audio:prepare": "tsx scripts/prepare-audio.ts",
+    "images:prompts": "tsx scripts/image-prompts.ts",
+    "images:prepare": "tsx scripts/prepare-images.ts"
   },
   "dependencies": {
     "dexie": "^4.4.6",

@@ -2,13 +2,14 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { videoUrl } from '../content';
 import { useObjectUrl } from '../hooks';
 import { back } from '../router';
+import { Icon } from './design';
 
 export function TopBar({ title, backTo, right }: { title: string; backTo?: string | true; right?: ReactNode }) {
   return (
     <header className="topbar">
       {backTo ? (
         <button className="icon-btn" aria-label="뒤로" onClick={() => back(typeof backTo === 'string' ? backTo : '/')}>
-          ←
+          <Icon name="back" />
         </button>
       ) : (
         <span style={{ width: 8 }} />

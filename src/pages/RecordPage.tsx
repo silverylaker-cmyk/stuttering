@@ -2,8 +2,9 @@ import { useMemo, useState } from 'react';
 import { useApp } from '../app-context';
 import type { RecordingResult } from '../audio/recorder';
 import { Capture } from '../components/Capture';
+import { ExCard, Icon, Illust, RowItem, Section } from '../components/design';
 import { TapCounter, type Counts } from '../components/TapCounter';
-import { Badge, BlobAudio, Card, Chips, Empty, Scale, TopBar, VideoSlot, fmtSec } from '../components/ui';
+import { BlobAudio, Card, Chips, Empty, Scale, TopBar, VideoSlot, fmtSec } from '../components/ui';
 import { PROGRAM, RECORDING_KINDS } from '../config/program';
 import { SENTENCES, probeTopicFor } from '../content';
 import { db, pruneBlobs, saveRecording } from '../db/db';
@@ -30,7 +31,7 @@ export function RecordPage() {
 }
 
 function RecordList() {
-  const { data, clinician } = useApp();
+  const { data, clinician, status } = useApp();
   const [open, setOpen] = useState<number | null>(null);
   const [filter, setFilter] = useState<'all' | RecordingKind>('all');
   const list = useMemo(
@@ -53,31 +54,40 @@ function RecordList() {
     <>
       <TopBar title="녹음·카운트" />
       <div className="page">
-        <a href="#/record?new=1" className="btn primary lg block">
-          ● 새 녹음
-        </a>
+        <ExCard
+          wide
+          to="/record?new=1"
+          art={<Illust name="record-probe" />}
+          color={2}
+          title="새 녹음"
+          sub={status.phase.phase >= 1 ? (status.thisWeekProbe ? '이번 주 평가 녹음 완료 · 다른 녹음 추가' : '이번 주 평가 녹음을 아직 안 했어요') : '기저·보정 녹음부터 시작해요'}
+        />
         <Chips
           options={[{ value: 'all', label: '전체' }, ...RECORDING_KINDS, { value: 'calibration', label: '기저·보정' }]}
           value={filter}
           onChange={(v) => setFilter(v as typeof filter)}
         />
-        <Card>
-          {list.length === 0 && <Empty>아직 녹음이 없어요.</Empty>}
-          <div className="list">
+        {list.length === 0 ? (
+          <div className="stack center">
+            <div className="illust-hero" style={{ maxWidth: 160 }}>
+              <Illust name="empty-state" />
+            </div>
+            <Empty>아직 녹음이 없어요.</Empty>
+          </div>
+        ) : (
+          <Section title="녹음 목록" count={list.length}>
             {list.map((r) => (
               <div key={r.id}>
-                <button className="list-item" onClick={() => setOpen(open === r.id ? null : r.id!)} aria-expanded={open === r.id}>
-                  <span className="grow">
-                    <b>{formatKDate(r.date)}</b> <Badge tone={r.kind === 'probe' ? 'ok' : undefined}>{KIND_LABEL[r.kind]}</Badge>
-                    <br />
-                    <span className="small muted tabnum">
-                      %SS {r.pctSS} · {r.spm} SPM · NAT {r.nat} · {fmtSec(r.durationSec)}
-                    </span>
-                  </span>
-                  <span className="chev">{open === r.id ? '▴' : '▾'}</span>
-                </button>
+                <RowItem
+                  onClick={() => setOpen(open === r.id ? null : r.id!)}
+                  icon={<Icon name="mic" size={20} />}
+                  color={r.kind === 'probe' ? 1 : r.kind === 'calibration' ? 3 : 2}
+                  title={<>{formatKDate(r.date)} · {KIND_LABEL[r.kind]}</>}
+                  sub={`%SS ${r.pctSS} · ${r.spm} SPM · NAT ${r.nat} · ${fmtSec(r.durationSec)}`}
+                  trailing={<span className="chev">{open === r.id ? '▴' : '▾'}</span>}
+                />
                 {open === r.id && (
-                  <div className="stack" style={{ padding: '4px 0 12px' }}>
+                  <div className="stack" style={{ padding: '4px 14px 14px' }}>
                     {r.topic && <span className="small muted">주제: {r.topic}</span>}
                     <BlobAudio blob={r.blob} />
                     <span className="small muted tabnum">
@@ -90,8 +100,8 @@ function RecordList() {
                 )}
               </div>
             ))}
-          </div>
-        </Card>
+          </Section>
+        )}
         <p className="small muted">
           일반 녹음 파일은 최근 {PROGRAM.recording.keepBlobs}개까지 보관하고, 주간 평가·보정 녹음은 계속 보관해요. 오래된 파일이 지워져도 수치는 남아요.
         </p>

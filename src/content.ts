@@ -1,3 +1,4 @@
+import illustrationsJson from '../content/illustrations.json';
 import sentencesJson from '../content/sentences.json';
 import probeTopicsJson from '../content/probeTopics.json';
 import thoughtPresetsJson from '../content/thoughtPresets.json';
@@ -44,4 +45,15 @@ export function videoUrl(key: string): string {
 export function probeTopicFor(weekIndex: number): string {
   const n = PROBE_TOPICS.length;
   return PROBE_TOPICS[((weekIndex % n) + n) % n];
+}
+
+
+export const ILLUSTRATIONS = Object.fromEntries(illustrationsJson.items.map((i) => [i.name, i])) as Record<
+  string,
+  (typeof illustrationsJson.items)[number]
+>;
+
+/** 일러스트 대체 이모지 */
+export function illustFallback(name: string): string {
+  return ILLUSTRATIONS[name]?.fallback ?? '•';
 }
