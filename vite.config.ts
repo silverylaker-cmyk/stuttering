@@ -15,7 +15,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: false,
-      includeAssets: ['icons/*.png', 'icons/*.svg', 'worklets/*.js', 'fonts/*.woff2'],
+      includeAssets: ['icons/*.png', 'worklets/*.js', 'fonts/*.woff2'],
       manifest: {
         name: '말하기 훈련',
         short_name: '말하기 훈련',
